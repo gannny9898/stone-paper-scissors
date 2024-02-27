@@ -1,61 +1,61 @@
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-int game(char you, char computer)
-{
-    if (you == computer)
-        return -1;
+void playGame(int playerChoice, int computerChoice);
+void printChoice(int choice);
 
-    if (you == 's' && computer == 'p')
-        return 0;
-
-    else if (you == 'p' && computer == 's') return 1;
-
-    if (you == 's' && computer == 'z')
-        return 1;
-
-    else if (you == 'z' && computer == 's')
-        return 0;
-
-    if (you == 'p' && computer == 'z')
-        return 0;
-
-    else if (you == 'z' && computer == 'p')
-        return 1;
+int main() {
+    srand(time(NULL));
+    
+    int playerChoice;
+    int computerChoice = rand() % 3; 
+    
+    printf("Rock, Paper, Scissors\n");
+    printf("Enter your choice (0 for Rock, 1 for Paper, 2 for Scissors): ");
+    scanf("%d", &playerChoice);
+    
+    if (playerChoice < 0 || playerChoice > 2) {
+        printf("Invalid choice. Please enter a number between 0 and 2.\n");
+        return 1; 
+    }
+    
+    playGame(playerChoice, computerChoice);
+    
+    return 0;
 }
 
-int main()
-{
-    int n;
-    char you, computer, result;
-    srand(time(NULL));
-    n = rand() % 100;
-
-    if (n < 33)
-        computer = 's';
-    else if (n > 33 && n < 66)
-        computer = 'p';
-    else
-        computer = 'z';
-
-    printf("\n\n\n\n\t\t\t\tEnter s for STONE, p for PAPER and z for SCISSOR\n\t\t\t\t\t\t\t");
-
-    scanf("%c", &you);
-
-    result = game(you, computer);
-
-    if (result == -1) {
-        printf("\n\n\t\t\t\tGame Draw!\n");
+void playGame(int playerChoice, int computerChoice) {
+    printf("Player's choice: ");
+    printChoice(playerChoice);
+    
+    printf("Computer's choice: ");
+    printChoice(computerChoice);
+    
+    if (playerChoice == computerChoice) {
+        printf("It's a tie!\n");
+    } else if ((playerChoice == 0 && computerChoice == 2) ||
+               (playerChoice == 1 && computerChoice == 0) ||
+               (playerChoice == 2 && computerChoice == 1)) {
+        printf("You win!\n");
+    } else {
+        printf("You lose!\n");
     }
-    else if (result == 1) {
-        printf("\n\n\t\t\t\tWow! You have won the game!\n");
-    }
-    else { 
-        printf("\n\n\t\t\t\tOh! You have lost the game!\n");
-    }
-    printf("\t\t\t\tYOu choose : %c and Computer choose : %c\n",you, computer);
+}
 
-    return 0;
+void printChoice(int choice) {
+    switch (choice) {
+        case 0:
+            printf("Rock\n");
+            break;
+        case 1:
+            printf("Paper\n");
+            break;
+        case 2:
+            printf("Scissors\n");
+            break;
+        default:
+            printf("Invalid choice\n");
+            break;
+    }
 }
